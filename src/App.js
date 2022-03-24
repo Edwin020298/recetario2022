@@ -1,42 +1,33 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import {
-  Container,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Card,
-  CardBody,
-} from "reactstrap";
+import shortid from "shortid";
+import { Label, Card, CardBody } from "reactstrap";
 
 function App() {
-  const [values, setvalues] = React.useState({
-    nombre: "",
-    calorias: "",
-    descripcion: "",
-    ingredientes: "",
-  });
+  const [nombreReceta, setNombreReceta] = React.useState("");
+  const [recetas, setRecetas] = React.useState([]);
+  
+  const [modoEdicion] = React.useState(false);
 
-  function handleSubmit(evt) {
-    evt.preventDefauld();
-  }
+  const agregarReceta = (e) => {
+    e.preventDefault();
+    if (!nombreReceta.trim()) {
+      return;
+    }
+    setRecetas([...recetas, { nombreReceta, id: shortid.generate() }]);
+    setNombreReceta("");
+  };
 
-  function handleChange(evt) {
-    const { target } = evt;
-    const { name, value } = target;
+  const eliminareceta = (id) => {
+    const arrayFiltrado = recetas.filter((item) => item.id !== id);
+    setRecetas(arrayFiltrado);
+  };
 
-    const newValues = {
-      ...values,
-      [name]: value,
-    };
-    setvalues(newValues);
-  }
+  const editarReceta = () => {};
 
   return (
-    <div className="App">
+    <div className="container mt-5">
       <header className="App-header">
         <p>
           <img src={logo} className="App-logo" alt="logo" />
@@ -45,54 +36,74 @@ function App() {
         </p>
       </header>
 
-      <Container className="p-10">
+      <h4 className="text-center"></h4>
+      <form onSubmit={modoEdicion ? editarReceta : agregarReceta}>
         <Card>
           <CardBody>
-            <Form onSubmit={handleSubmit}>
-              <FormGroup>
-                <Label for="name">Nombre</Label>
-                <Input
-                  type="text"
-                  name="name"
-                  value={values.Nombre}
-                  onChange={handleChange}
-                />
-              </FormGroup>
+            <Label for="name">Nombre</Label>
+            <input
+              name="nombreReceta"
+              type="text"
+              className="form-control mb-2"
+              onChange={(e) => setNombreReceta(e.target.value)}
+              value={nombreReceta}
+            />
 
-              <FormGroup>
-                <Label for="Calorias">Calorias</Label>
-                <Input
-                  type="text"
-                  name="Calorias"
-                  value={values.Calorias}
-                  onChange={handleChange}
-                />
-              </FormGroup>
+            <Label for="calorias">calorias</Label>
+            <input
+              name="Calorias"
+              type="text"
+              className="form-control mb-2"
+              
+            />
+            <Label for="descripcion">descripcion</Label>
+            <input
+              name="descripcion"
+              type="textarea"
+              className="form-control mb-2"
+             
+            />
 
-              <FormGroup>
-                <Label for="Descripcion">Descripcion</Label>
-                <Input
-                  type="text"
-                  name="Descripcion"
-                  values={values.descripcion}
-                  onChange={handleChange}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for="ingredientes">ingredientes</Label>
-                <Input
-                  type="text"
-                  name="ingredientes"
-                  values={values.ingredientes}
-                  onChange={handleChange}
-                />
-              </FormGroup>
+            <Label for="ingredientes">ingredientes</Label>
+            <input
+              name="nombreReceta"
+              type="text"
+              className="form-control mb-2"
+              
+            />
 
-              <Button type="submit">Guardar receta</Button>
-            </Form>
+            {modoEdicion ? (
+              <button className="btn btn-warning btn-block" type="submit">
+                Editar
+              </button>
+            ) : (
+              <button className="btn btn-dark btn-block" type="submit">
+                GUARDAR
+              </button>
+            )}
           </CardBody>
         </Card>
-      </Container>
+        <br></br>
+      </form>
+      <ul className="list-group">
+        {recetas.length === 0 ? (
+          <li className="list-group-item">NO HAY RECETAS HASTA EL MOMENTO</li>
+        ) : (
+          recetas.map((item) => (
+            <li className="list-group-item" key={item.id}>
+              <span className="lead">{item.nombreReceta}</span>
+              <button
+                className="btn btn-sm btn-danger float-right mx-2"
+                onClick={() => eliminareceta(item.id)}
+              >
+                Eliminar
+              </button>
+            </li>
+          ))
+        )}
+        <br></br>
+      </ul>
+      <br></br>
     </div>
   );
 }
