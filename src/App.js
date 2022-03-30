@@ -11,7 +11,7 @@ function App() {
   const GuardaReceta = (e) => {
     e.preventDefault();
     if (!Nombre.trim()) {
-      if (!Calorias.trim()) return;
+       return;
     }
     setNombreR([...nombreR, { Nombre, id: shortid.generate() }]);
     setNombre("");
