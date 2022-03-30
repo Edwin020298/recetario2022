@@ -5,26 +5,27 @@ import shortid from "shortid";
 import { Label, Card, CardBody } from "reactstrap";
 
 function App() {
-  const [nombreReceta, setNombreReceta] = React.useState("");
-  const [recetas, setRecetas] = React.useState([]);
-  
-  const [modoEdicion] = React.useState(false);
+  const [Nombre, setNombre] = React.useState();
+  const [nombreR, setNombreR] = React.useState([]);
 
-  const agregarReceta = (e) => {
+  const [Calorias, setCalorias] = React.useState();
+  const [caloriasR, setCaloriasR] = React.useState([]);
+
+  const GuardaReceta = (e) => {
     e.preventDefault();
-    if (!nombreReceta.trim()) {
-      return;
+    if (!Nombre.trim()) {
+       if (!Calorias.trim()) return; 
     }
-    setRecetas([...recetas, { nombreReceta, id: shortid.generate() }]);
-    setNombreReceta("");
+    setNombreR([...nombreR, { Nombre, id: shortid.generate() }]);
+    setNombre("");
+     setCaloriasR([...caloriasR, { Calorias, id: shortid.generate() }]);
+    setCalorias(""); 
   };
 
-  const eliminareceta = (id) => {
-    const arrayFiltrado = recetas.filter((item) => item.id !== id);
-    setRecetas(arrayFiltrado);
+  const BorrarReceta = (id) => {
+    const arrayFiltrado = nombreR.filter((item) => item.id !== id);
+    setNombreR(arrayFiltrado);
   };
-
-  const editarReceta = () => {};
 
   return (
     <div className="container mt-5">
@@ -36,17 +37,16 @@ function App() {
         </p>
       </header>
 
-      <h4 className="text-center"></h4>
-      <form onSubmit={modoEdicion ? editarReceta : agregarReceta}>
+      <form onSubmit={GuardaReceta}>
         <Card>
           <CardBody>
             <Label for="name">Nombre</Label>
             <input
-              name="nombreReceta"
+              name="Nombre"
               type="text"
               className="form-control mb-2"
-              onChange={(e) => setNombreReceta(e.target.value)}
-              value={nombreReceta}
+              onChange={(e) => setNombre(e.target.value)}
+              value={Nombre}
             />
 
             <Label for="calorias">calorias</Label>
@@ -54,56 +54,48 @@ function App() {
               name="Calorias"
               type="text"
               className="form-control mb-2"
-              
+              onChange={(e) => setCalorias(e.target.value)}
+              value={Calorias}
             />
+
             <Label for="descripcion">descripcion</Label>
             <input
               name="descripcion"
               type="textarea"
               className="form-control mb-2"
-             
             />
 
             <Label for="ingredientes">ingredientes</Label>
-            <input
-              name="nombreReceta"
-              type="text"
-              className="form-control mb-2"
-              
-            />
+            <input name="Nombre" type="text" className="form-control mb-2" />
 
-            {modoEdicion ? (
-              <button className="btn btn-warning btn-block" type="submit">
-                Editar
-              </button>
-            ) : (
-              <button className="btn btn-dark btn-block" type="submit">
-                GUARDAR
-              </button>
-            )}
+            <button className="btn btn-dark btn-block" type="submit">
+              GUARDAR
+            </button>
           </CardBody>
         </Card>
         <br></br>
       </form>
+
       <ul className="list-group">
-        {recetas.length === 0 ? (
-          <li className="list-group-item">NO HAY RECETAS HASTA EL MOMENTO</li>
+        {nombreR.length === 0 ? (
+          <div className="card mb-3">NO HAY RECETAS</div>
         ) : (
-          recetas.map((item) => (
-            <li className="list-group-item" key={item.id}>
-              <span className="lead">{item.nombreReceta}</span>
+          nombreR.map((item) => (
+            <div className="list-group-item" key={item.id}>
+              <span className="lead">{item.Nombre}</span>
+              <span className="res">{item.Calorias}</span>
+
               <button
                 className="btn btn-sm btn-danger float-right mx-2"
-                onClick={() => eliminareceta(item.id)}
+                onClick={() => BorrarReceta(item.id)}
               >
                 Eliminar
               </button>
-            </li>
+            </div>
           ))
         )}
         <br></br>
       </ul>
-      <br></br>
     </div>
   );
 }
