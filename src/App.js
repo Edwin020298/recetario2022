@@ -8,18 +8,13 @@ function App() {
   const [Nombre, setNombre] = React.useState();
   const [nombreR, setNombreR] = React.useState([]);
 
-  const [Calorias, setCalorias] = React.useState();
-  const [caloriasR, setCaloriasR] = React.useState([]);
-
   const GuardaReceta = (e) => {
     e.preventDefault();
     if (!Nombre.trim()) {
-       if (!Calorias.trim()) return; 
+      if (!Calorias.trim()) return;
     }
     setNombreR([...nombreR, { Nombre, id: shortid.generate() }]);
     setNombre("");
-     setCaloriasR([...caloriasR, { Calorias, id: shortid.generate() }]);
-    setCalorias(""); 
   };
 
   const BorrarReceta = (id) => {
@@ -50,13 +45,7 @@ function App() {
             />
 
             <Label for="calorias">calorias</Label>
-            <input
-              name="Calorias"
-              type="text"
-              className="form-control mb-2"
-              onChange={(e) => setCalorias(e.target.value)}
-              value={Calorias}
-            />
+            <input name="Calorias" type="text" className="form-control mb-2" />
 
             <Label for="descripcion">descripcion</Label>
             <input
@@ -83,8 +72,6 @@ function App() {
           nombreR.map((item) => (
             <div className="list-group-item" key={item.id}>
               <span className="lead">{item.Nombre}</span>
-              <span className="res">{item.Calorias}</span>
-
               <button
                 className="btn btn-sm btn-danger float-right mx-2"
                 onClick={() => BorrarReceta(item.id)}
