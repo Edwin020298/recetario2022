@@ -8,11 +8,22 @@
 }
 
 .App-header {
-  background-color: rgb(48, 76, 231);
+  background-color: rgb(39, 223, 63);
+  color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size:25pt
+  font-size: 25pt;
+}
+h2 {
+  color: rgb(8, 8, 8);
+  align-items: center;
+}
+
+h3 {
+  color: rgb(29, 28, 28);
+  display: flex;
+  justify-content: center;
 }
 
 @keyframes App-logo-spin {
@@ -22,4 +33,7 @@
   to {
     transform: rotate(360deg);
   }
+}
+Container{
+  border-color: blueviolet;
 }
