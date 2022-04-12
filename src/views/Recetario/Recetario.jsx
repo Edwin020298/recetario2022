@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import shortid from "shortid";
 import TituloLogo from "./components/Titulo/TituloLogo";
 import Formulario from "./components/Formulario/Formulario";
 import Receta from "./components/Receta/Receta";
-
+import axios from "axios";
 const initialData = {
   name: "",
   calories: "",
@@ -15,6 +15,23 @@ function Recetario() {
   const [ingrediente, setingrediente] = useState("");
   const [ingredientes, setIngredientes] = useState([]);
   const [recetas, setRecetas] = useState([]);
+
+  useEffect(() => {
+    const getBerrys = async () => {
+      axios({
+        method: "get",
+        url: "https://pokeapi.co/api/v2/berry",
+        responseType: "stream",
+      })
+        .then((res) => {
+          console.log("berris",res);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    getBerrys()
+  }, []);
 
   const validateButton = () => {
     if (values.name === "") return true;
