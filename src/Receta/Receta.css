@@ -1,0 +1,15 @@
+h2 {
+    color: rgb(8, 8, 8);
+    align-items: center;
+  }
+
+  h5 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  h8 {
+    color: rgba(0, 0, 0, 0.904);
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import shortid from "shortid";
-import { Label, Card, CardBody, Container, Row, Col, Button } from "reactstrap";
+import TituloLogo from "./Titulo/TituloLogo";
+import Formulario from "./Formulario/Formulario";
+import Receta from "./Receta/Receta";
 
 const initialData = {
   name: "",
@@ -67,153 +68,21 @@ function App() {
 
   return (
     <div className="container mt-5">
-      <Container>
-        <Card>
-          <CardBody>
-            <Row>
-              <header className="App-header">
-                <p>
-                  <img src={logo} className="App-logo" alt="logo" />
-                  EL PRIMER RECETARIO DE EDWIN MAY
-                  <img src={logo} className="App-logo" alt="logo" />
-                </p>
-              </header>
-            </Row>
-          </CardBody>
-        </Card>
-      </Container>
+      <TituloLogo />
 
-      <Container>
-        <form onSubmit={GuardaReceta}>
-          <Card>
-            <CardBody>
-              <Row>
-                <Col>
-                  <Row>
-                    <Label htmlFor="name">NOMBRE</Label>
-                    <input
-                      name="name"
-                      type="text"
-                      className="form-control mb-2"
-                      onChange={handleChange}
-                      value={values.name}
-                    />
-                  </Row>
-                  <Row>
-                    <Label htmlFor="calorias">CALORIAS</Label>
-                    <input
-                      value={values.calories}
-                      name="calories"
-                      type="text"
-                      className="form-control mb-2"
-                      onChange={handleChange}
-                    />
-                  </Row>
+      <Formulario
+        values={values}
+        ingrediente={ingrediente}
+        setingrediente={setingrediente}
+        ingredientes={ingredientes}
+        validateButton={validateButton}
+        GuardaReceta={GuardaReceta}
+        handleChange={handleChange}
+        addIngredient={addIngredient}
+        borrarIngrediente={borrarIngrediente}
+      />
 
-                  <Row>
-                    <Label htmlFor="descripcion">DESCRIPCION</Label>
-                    <input
-                      name="description"
-                      type="textarea"
-                      className="form-control mb-2"
-                      value={values.description}
-                      onChange={handleChange}
-                    />
-                  </Row>
-
-                  <Row>
-                    <Col>
-                      <Label htmlFor="ingredientes">INGREDIENTES</Label>
-                      <input
-                        name="ingredients"
-                        type="text"
-                        className="form-control mb-2"
-                        onChange={(e) => setingrediente(e.target.value)}
-                        value={ingrediente}
-                      />
-                    </Col>
-
-                    <Col>
-                      <Button
-                        onClick={addIngredient}
-                        outline
-                        color="secondary"
-                        type="button"
-                      >
-                        +
-                      </Button>
-                    </Col>
-                  </Row>
-
-                  <button
-                    disabled={validateButton()}
-                    className="btn btn-dark btn-block"
-                    type="submit"
-                  >
-                    GUARDAR
-                  </button>
-                </Col>
-
-                <Col>
-                  <Card>
-                    <CardBody>
-                      <h3>LISTA DE INGREDIENTES</h3>
-                      {ingredientes.map((res) => {
-                        return (
-                          <div key={res.id}>
-                            {res.name}
-                            <button
-                              className="Button"
-                              onClick={() => borrarIngrediente(res.id)}
-                            >
-                              BORRAR
-                            </button>
-                          </div>
-                        );
-                      })}
-                    </CardBody>
-                  </Card>
-                </Col>
-              </Row>
-            </CardBody>
-          </Card>
-        </form>
-      </Container>
-
-      <br></br>
-
-      <Container>
-        <ul className="list-group">
-          {recetas.length === 0 ? (
-            <h2 className="card mb-3">NO HAY RECETAS</h2>
-          ) : (
-            recetas.map((item) => {
-              const renderIngredientes = item.ingredientes.map((res) => {
-                return <li key={res.id}>{res.name}</li>;
-              });
-              return (
-                <div className="list-group-item" key={item.id}>
-                  <span className="lead">{item.name}</span>
-                  <br></br>
-                  <span className="lead">{item.calories}</span>
-                  <br></br>
-                  <span className="lead">{item.description}</span>
-                  <br></br>
-                  <ul>{renderIngredientes}</ul>
-
-                  <button
-                    className="btn btn-sm btn-danger float-right mx-2"
-                    onClick={() => BorrarReceta(item.id)}
-                  >
-                    Eliminar
-                  </button>
-                </div>
-              );
-            })
-          )}
-          <br></br>
-        </ul>
-      </Container>
+      <Receta BorrarReceta={BorrarReceta} recetas={recetas} />
     </div>
   );
 }
